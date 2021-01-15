@@ -1,0 +1,27 @@
+{:source-paths ["src/main"]
+
+ :http {:port 3449
+        :host "0.0.0.0"}
+
+ :builds
+ {:calc-lib
+  {; Option 1 - :target :esm
+   ; - To use cljs in js, use `require('calc-cljs/calc')`
+   ; - Advantage: requiring simple JS from CLJS works
+   ; - Disadvantage: more comples JS using libraries like `winston` still doesn't work
+   :target :esm
+   :runtime :node
+   :output-dir "src/gen"
+   :modules {:calc {:exports {:add calc/add
+                              :multiply calc/multiply}}}
+
+   ; Option 2 - :target :npm-module
+   ;  - To use cljs in js, use `require('../gen/calc')`
+   ;  - Advantage: you don't need to specify exports directly
+   ;  - Disadvantage: can't refer js from cljs at all.
+;   :target :npm-module
+;   :runtime :node
+;   :entries [calc]
+;   :js-options {:js-package-dirs ["./node_modules"]}
+;   :output-dir "./node_modules/calc-cljs"
+   }}}

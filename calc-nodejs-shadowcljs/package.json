@@ -1,0 +1,49 @@
+{
+  "name": "calc",
+  "version": "0.0.1",
+  "description": "",
+  "scripts": {
+    "clean": "rm -rf ./src/gen ./node_modules/calc-cljs ./.shadow-cljs",
+    "start": "npm run start:dev",
+    "start:dev": "sls offline -s dev --useChildProcesses --skipCacheInvalidation",
+    "start:prod": "sls offline -s prod--useChildProcesses --skipCacheInvalidation",
+    "debug": "node --inspect --inspect-port=9229 node_modules/.bin/serverless offline -s dev",
+    "deploy:dev": "sls deploy -s dev",
+    "deploy:prod": "sls deploy -s prod",
+    "undeploy:dev": "sls remove -s dev",
+    "undeploy:prod": "sls remove -s prod",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier . --write",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "shadow:watch": "npm run clean; shadow-cljs watch calc-lib",
+    "shadow:release": "npm run clean; shadow-cljs release calc-lib"
+  },
+  "author": "Greg Rynkowski <greg@rynkowski.uk>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rynkowsg/serverless-demo.git"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "7.17.0",
+    "node-libs-browser": "2.2.1",
+    "prettier": "2.2.1",
+    "serverless": "2.19.0",
+    "serverless-offline": "6.8.0",
+    "serverless-webpack": "5.3.5",
+    "shadow-cljs": "2.11.13",
+    "webpack": "5.14.0"
+  },
+  "dependencies": {
+    "express": "4.17.1",
+    "express-validation": "3.0.6",
+    "express-winston": "4.0.5",
+    "serverless-http": "2.6.0",
+    "winston": "3.3.3"
+  },
+  "engines": {
+    "npm": "6.14.10",
+    "node": "12.20.1"
+  }
+}

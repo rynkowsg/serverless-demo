@@ -1,0 +1,42 @@
+# Serverless.yml reference:
+# https://www.serverless.com/framework/docs/providers/aws/guide/serverless.yml/
+# https://www.serverless.com/framework/docs/providers/aws/guide/variables/
+
+service: calc
+frameworkVersion: '2.19'
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'us-east-1'}
+  lambdaHashingVersion: 20201221
+  # Starting with v3, API Gateway naming will be changed from "{stage}-{service}" to "{service}-{stage}"
+  # Adopt to the new behaviour introduced in v3
+  apiGateway: { shouldStartNameWithService: true }
+  # Uncomment if you don't use webpack
+#  excludeDevDependencies: true
+
+functions:
+  calc:
+    handler: src/main/handlers.calcHandler
+    events:
+      - http: { path: '/calc/add', method: GET, cors: true }
+      - http: { path: '/calc/multiply', method: POST, cors: true }
+  hello:
+    handler: src/main/handlers.helloHandler
+    events:
+      - schedule:
+          enabled: false # change to true to trigger cron events
+          rate: 'rate(1 minute)'
+
+plugins:
+  - serverless-webpack
+  - serverless-offline
+
+custom:
+  webpack:
+    webpackConfig: 'webpack.config.js' # Name of webpack configuration file
+    includeModules: false # Node modules configuration for packaging
+    packager: 'npm' # Packager that will be used to package your external modules
+    excludeFiles: src/**/*.test.js
