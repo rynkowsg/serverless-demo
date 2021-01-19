@@ -1,0 +1,32 @@
+{
+  "name": "calc",
+  "version": "0.0.1",
+  "description": "",
+  "scripts": {
+    "start": "npm run start:dev",
+    "start:dev": "sls offline -s dev --printOutput --useChildProcesses --skipCacheInvalidation",
+    "start:prod": "sls offline -s prod --printOutput --useChildProcesses --skipCacheInvalidation",
+    "deploy:dev": "sls deploy -s dev",
+    "deploy:prod": "sls deploy -s prod",
+    "undeploy:dev": "sls remove -s dev",
+    "debug": "node --inspect --inspect-port=9229 node_modules/.bin/serverless offline -s --printOutput dev",
+    "undeploy:prod": "sls remove -s prod",
+    "package": "npm run clean; ./scripts/package.sh",
+    "clean": "rm -rf classes/ target/",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Greg Rynkowski <greg@rynkowski.uk>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rynkowsg/serverless-demo.git"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "serverless": "2.19.0",
+    "serverless-offline": "6.8.0"
+  },
+  "engines": {
+    "npm": "6.14.10",
+    "node": "12.20.1"
+  }
+}

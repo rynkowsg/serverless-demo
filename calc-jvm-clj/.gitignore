@@ -1,0 +1,22 @@
+# MacOS
+.DS_Store
+
+# NPM
+node_modules/
+
+# Serverless
+.serverless/
+
+# MVN
+.m2/
+
+# IntelliJ Idea
+*.iml
+.idea/
+
+# Clojure
+.nrepl-port
+.rebel_readline_history
+classes/
+.cpcache/
+target/

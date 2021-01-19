@@ -1,0 +1,48 @@
+# Serverless.yml reference:
+# https://www.serverless.com/framework/docs/providers/aws/guide/serverless.yml/
+# https://www.serverless.com/framework/docs/providers/aws/guide/variables/
+
+service: calc
+frameworkVersion: '2.19'
+
+provider:
+  name: aws
+  # https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html
+  runtime: java8
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'us-east-1'}
+  lambdaHashingVersion: 20201221
+  # Starting with v3, API Gateway naming will be changed from "{stage}-{service}" to "{service}-{stage}"
+  # Adopt to the new behaviour introduced in v3
+  apiGateway: { shouldStartNameWithService: true }
+
+package:
+  artifact: target/uberjar.jar
+
+functions:
+  calc1:
+    handler: calc.Handler1
+    events:
+      - http: { path: '/calc/add1', method: GET, cors: true }
+      - http: { path: '/calc/multiply1', method: POST, cors: true }
+  calc2:
+    handler: calc.Handler2
+    events:
+      - http: { path: '/calc/add2', method: GET, cors: true }
+      - http: { path: '/calc/multiply2', method: POST, cors: true }
+  hello:
+    handler: hello.Handler
+    events:
+      - schedule:
+          enabled: false # change to true to trigger cron events
+          rate: 'rate(1 minute)'
+
+plugins:
+  - serverless-offline
+
+# Enabled because Clojure lambdas work with serverless-offline only
+# if they `sls offline` is run with docker.
+# (Still with an issue when using pprint, but better then nothing).
+custom:
+  serverless-offline:
+    useDocker: true
